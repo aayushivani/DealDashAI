@@ -11,7 +11,7 @@ import streamlit as st
 
 st.set_page_config(page_title="DealDash – AI-Powered Deal Simulation", layout="wide")
 
-# --------- BASELINE DATA ------------
+
 BASELINE = {
     "company_name": "SampleCo",
     "revenue": 1_000_000_000.0,
@@ -25,7 +25,7 @@ BASELINE = {
     "tax_rate_pct": 25.0,
 }
 
-# --------- HELPERS -------------------
+
 def bps_to_pct(bps: float) -> float:
     return bps / 10_000.0
 
@@ -67,7 +67,7 @@ def df_from_log(log: List[Tuple[str, str, Any, Any]]) -> pd.DataFrame:
         "value": "string",
     })
 
-# --------- PARSER --------------------
+
 def parse_prompt_to_scenario(text: str) -> Dict[str, float]:
     s = text.lower()
     sc: Dict[str, float] = {}
@@ -103,7 +103,7 @@ def parse_prompt_to_scenario(text: str) -> Dict[str, float]:
 
     return sc
 
-# --------- ENGINE --------------------
+
 @dataclass
 class Adjusted:
     revenue: float
@@ -261,7 +261,7 @@ def narrative(baseline: Dict[str, float], scenario: Dict[str, float], outputs: D
     )
     return " ".join(parts)
 
-# --------- UI ------------------------
+
 st.title("DealDash – AI-Powered Deal Simulation")
 
 with st.sidebar:
@@ -327,7 +327,7 @@ if st.button("Run scenario"):
     st.subheader("Narrative")
     st.write(narrative(BASELINE, scenario, outputs))
 
-    # ---- Leverage / Coverage panel ----
+    
     st.subheader("Leverage & Coverage (pro-forma)")
     colL, colR = st.columns([1,2])
     with colL:
@@ -350,7 +350,7 @@ if st.button("Run scenario"):
         r1.metric("Equity Value", money(pf_equity_value))
         r2.metric("Equity / Share", f"{pf_equity_ps:.2f}")
 
-        # ---- Cap table (simple) ----
+        
     st.subheader("Cap Table (simple)")
     cc1, cc2, cc3, cc4 = st.columns([1, 1, 1, 1])
     with cc1:
@@ -408,7 +408,7 @@ if st.button("Run scenario"):
     if secondary_sell > 0:
         st.caption(f"Secondary sell ($ {secondary_sell:,.0f}) goes to selling holders; does not change share count.")
 
-    # ---- Calculation log ----
+   
     if show_log:
         st.subheader("Calculation log")
         df_log = df_from_log(log)
